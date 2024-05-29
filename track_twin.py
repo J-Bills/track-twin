@@ -1,14 +1,15 @@
 import requests
-import re
 import spotipy
-import os
+import config
+import chompjs
 from bottle import route, run, request
 from time import sleep
 from spotipy.oauth2 import SpotifyOAuth
 from bs4 import BeautifulSoup
+from selectolax.parser import HTMLParser
 
-SPOTIPY_CLIENT_ID ='7f05be8de1c94e12b64488a34834e8aa'
-SPOTIPY_CLIENT_SECRET = '0ff23932b077457292f7a575a38a5bf9'
+SPOTIPY_CLIENT_ID = config.client_id
+SPOTIPY_CLIENT_SECRET = config.client_key
 SPOTIPY_URI = 'http://localhost:8080'
 SCOPE = "user-modify-private"
 CACHE = '.spotipycache'
@@ -42,14 +43,30 @@ def index():
     else:
         return htmlForLoginButton()
     
-def generateLink(input:str):
+
+
+
+def generateLink(input:str) -> str: 
     url = 'https://www.youtube.com/results?search_query='
     url += input
     
-    # response = requests.get(url)
-    # yt_html = response.text
-    # yt_soup = BeautifulSoup(yt_html, 'html.parser')
-    # song_link = yt_soup.find(id='thumbnail')['href']
+    response = requests.get(url)
+    html = HTMLParser(response.text)
+    data = html.css("script[nonce]")
+    
+    for script in data:
+        try:
+            new = chompjs.parse_js_object(script.text())
+        except ValueError:
+            pass
+        
+        if "responseContext" in new:
+            vidURL = new["contents"]["twoColumnSearchResultsRenderer"]["primaryContents"]["sectionListRenderer"]["contents"][0]["itemSectionRenderer"]["contents"][0]['videoRenderer']['navigationEndpoint']['commandMetadata']['webCommandMetadata']['url']
+            ytURL = f"https://www.youtube.com{vidURL}"
+    return ytURL
+
+yt_link = generateLink('sad+robots+dont+cry')
+
 
 def htmlForLoginButton():
     auth_url = getSPOauthURI()

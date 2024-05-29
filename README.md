@@ -1,6 +1,6 @@
-# TrackMatch
+# track-twin
 
-TrackMatch is a project that creates personalized Spotify playlists based on the similarity to a given track. Simply input a song, and TrackMatch will webscrape cosine.club and create a Spotify playlist containing the results!
+track-twin is a project that creates personalized Spotify playlists based on the similarity to a given track using machine learning. Simply input a song, and track-twin will webscrape cosine.club and create a Spotify playlist on your account containing the results!
 
 ## Features
 
@@ -11,18 +11,18 @@ TrackMatch is a project that creates personalized Spotify playlists based on the
 ## Usage
 
 1. Input a song
-2. TrackMatch scrapes cosine.club for similar tracks
+2. track-twin scrapes cosine.club for similar tracks
 3. Generates a Spotify playlist with the results
 
 ## Installation
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/TrackMatch.git
+    git clone https://github.com/yourusername/track-twin.git
     ```
 2. Navigate to the project directory:
     ```bash
-    cd TrackMatch
+    cd track-twin
     ```
 3. Install the necessary dependencies:
     ```bash
@@ -33,4 +33,4 @@ TrackMatch is a project that creates personalized Spotify playlists based on the
 
 To run TrackMatch, use the following command:
 ```bash
-python trackmatch.py
+python track-twin.py

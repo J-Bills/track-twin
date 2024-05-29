@@ -46,9 +46,9 @@ def index():
 
 
 
-def generateLink(input:str) -> str: 
+def generateLink(usr_input:str) -> str: 
     url = 'https://www.youtube.com/results?search_query='
-    url += input
+    url += usr_input
     
     response = requests.get(url)
     html = HTMLParser(response.text)
@@ -66,6 +66,13 @@ def generateLink(input:str) -> str:
     return ytURL
 
 yt_link = generateLink('sad+robots+dont+cry')
+
+def getRelatedTracks(yt_link):
+    #Use Selenium to paste the track link in the submission box
+    #Scrape the tracks from the resulting webpage
+    pass
+
+
 
 
 def htmlForLoginButton():

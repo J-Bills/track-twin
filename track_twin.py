@@ -80,8 +80,8 @@ def getRelatedTracks(yt_link):
     uri_field.clear()
     uri_field.send_keys(yt_link, Keys.ENTER)
     
-    driver.implicitly_wait(5)
-    source = driver.find_element(By.XPATH, value='/html/body/div[1]/main/div/section[1]/div/span')
+    driver.implicitly_wait(9)
+    source = driver.find_element(By.CSS_SELECTOR, value='main div section span')
     origin_song = source.text
     songs_list = driver.find_elements(By.CSS_SELECTOR, '#track-list div span')
     
@@ -91,12 +91,8 @@ def getRelatedTracks(yt_link):
         song_info= song.text.split(' - ')
         related_songs_dict[str(indx)] = {'artist':song_info[0], 'track':song_info[1]}
     
-    driver.quit()
     return related_songs_dict, origin_song
     
-    #Use Selenium to paste the track link in the submission box
-    #Scrape the tracks from the resulting webpage
-
 def createPlaylist(access_token, related_songs_dict, source_song):
     user = spotipy.Spotify(access_token)
     user_id = user.current_user().get('id')
@@ -110,6 +106,7 @@ def createPlaylist(access_token, related_songs_dict, source_song):
             pass
     playlist = user.user_playlist_create(user_id,f"Songs like: {source_song}")
     user.playlist_add_items(playlist.get('id'), track_collection_ids)
+    print("Added playlist to your spotify account!")
     
 def htmlForLoginButton():
     auth_url = getSPOauthURI()
@@ -121,6 +118,6 @@ def getSPOauthURI():
     return auth_url
 
 def main():
-    run(host='localhost', port=8080)   
-
+    run(host='localhost', port=8080)
+    
 main()

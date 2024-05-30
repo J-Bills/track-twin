@@ -1,4 +1,4 @@
 .DS_Store
 .spotipycache
 config.py
-__pycache__/
+__pycache__

@@ -37,17 +37,19 @@ def callback():
     if code != url:
         print("Found Spotify auth code in Request URL! Trying to get valid access token...")
         token_info = sp_oauth.get_access_token(code)
-        access_token = token_info['access_token']
+        
     
-    if access_token:
+    if token_info:
+        access_token = token_info['access_token']
         usr_input = input('Input a song and artist name!\n')
         yt_link = generateLink(usr_input)
         related_songs_dict, source_song = getRelatedTracks(yt_link=yt_link)
         createPlaylist(access_token, related_songs_dict, source_song)
     
-def generateLink(usr_input:str) -> str: 
+def generateLink(usr_input:str) -> str:
     url = 'https://www.youtube.com/results?search_query='
     url += usr_input
+    print(url)
     
     response = requests.get(url)
     html = HTMLParser(response.text)
@@ -59,12 +61,25 @@ def generateLink(usr_input:str) -> str:
         except ValueError:
             pass
         
+        #spaghetti because youtube randomly inserts ads into json
         if "responseContext" in new:
-            vidURL = new["contents"]["twoColumnSearchResultsRenderer"]["primaryContents"]["sectionListRenderer"]["contents"][0]["itemSectionRenderer"]["contents"][0]['videoRenderer']['navigationEndpoint']['commandMetadata']['webCommandMetadata']['url']
-            ytURL = f"https://www.youtube.com{vidURL}"
+            bit = 0
+            content_path = new["contents"]["twoColumnSearchResultsRenderer"]["primaryContents"]["sectionListRenderer"]["contents"]
+            content_list_size = (len(content_path))
+            if content_list_size > 2:
+                bit = 1
+            testURL= content_path[bit]["itemSectionRenderer"]["contents"]
+            vidURL = content_path[bit]["itemSectionRenderer"]["contents"][0]
+            content_iter = iter(vidURL)
+            next_key = next(content_iter)
+            if next_key == "videoRenderer":
+                finalURL = vidURL['videoRenderer']['navigationEndpoint']['commandMetadata']['webCommandMetadata']['url']
+            else:
+                finalURL = testURL[1]['videoRenderer']['navigationEndpoint']['commandMetadata']['webCommandMetadata']['url']
+            ytURL = f"https://www.youtube.com{finalURL}"
     return ytURL
 
-def getRelatedTracks(yt_link):
+def getRelatedTracks(yt_link:str) -> dict:
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_experimental_option('detach', True)
     chrome_options.add_argument('--headless')
@@ -93,7 +108,7 @@ def getRelatedTracks(yt_link):
     
     return related_songs_dict, origin_song
     
-def createPlaylist(access_token, related_songs_dict, source_song):
+def createPlaylist(access_token:str, related_songs_dict:dict, source_song:str):
     user = spotipy.Spotify(access_token)
     user_id = user.current_user().get('id')
     track_collection_ids = list()

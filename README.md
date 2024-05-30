@@ -33,4 +33,4 @@ track-twin is a project that creates personalized Spotify playlists based on the
 
 To run TrackMatch, use the following command:
 ```bash
-python track-twin.py
+python track_twin.py

@@ -32,7 +32,7 @@ track-twin is a project that creates personalized Spotify playlists based on the
     ```bash
     touch config.py
     ```
-5. add client_id and client_key car to config.py:
+5. add client_id and client_key vars to config.py:
     ```python
     client_id = #Spotify Client id
     client_key = #Spotify Client key

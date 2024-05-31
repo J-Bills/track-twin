@@ -18,7 +18,7 @@ track-twin is a project that creates personalized Spotify playlists based on the
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/track-twin.git
+    git clone https://github.com/J-Bills/track-twin.git
     ```
 2. Navigate to the project directory:
     ```bash
@@ -28,9 +28,18 @@ track-twin is a project that creates personalized Spotify playlists based on the
     ```bash
     pip install -r requirements.txt
     ```
+4. Create a config.py:
+    ```bash
+    touch config.py
+    ```
+5. add client_id and client_key car to config.py:
+    ```python
+    client_id = #Spotify Client id
+    client_key = #Spotify Client key
+    ```
 
 ## Running the Project
 
 To run TrackMatch, use the following command:
 ```bash
-python track_twin.py
+python3 track_twin.py

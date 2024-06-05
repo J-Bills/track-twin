@@ -2,6 +2,11 @@
 
 track-twin is a project that creates personalized Spotify playlists based on the similarity to a given track using machine learning. Simply input a song, and track-twin will webscrape cosine.club and create a Spotify playlist on your account containing the results!
 
+## Exclaimer
+- For use, reach out to me and I will send client_id and key, and add you to my spotify dev team so that you can give it a spin. If requests for this go up then I will make the app readily available to everyone!
+- Only works well with edm genres ex: House - Dubstep - DNB
+- If you want to hear some funny music I recommend trying a country or rap song
+
 ## Features
 
 - Personalized Spotify playlists

@@ -1,6 +1,8 @@
-requests==2.25.1
-spotipy==2.19.0
-chompjs==1.0.12
-bottle==0.12.19
-selectolax==0.3.7
-selenium==3.141.0
+requests==2.31.0
+spotipy==2.23.0
+chompjs==1.2.3
+bottle==0.12.25
+selectolax==0.3.21
+selenium==4.21.0
+wheel==0.43.0
+HTMLParser==0.0.2

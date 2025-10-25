@@ -87,26 +87,30 @@ def getRelatedTracks(yt_link:str) -> dict:
     
     driver.get('https://cosine.club')
     
-    upload_link = driver.find_element(By.XPATH, value='/html/body/main/div/div[2]/span')
-    upload_link.click()
-    driver.implicitly_wait(5)
-    
-    uri_field = driver.find_element(By.NAME, value='uri')
-    uri_field.clear()
-    uri_field.send_keys(yt_link, Keys.ENTER)
-    
-    driver.implicitly_wait(9)
-    source = driver.find_element(By.CSS_SELECTOR, value='main div section span')
-    origin_song = source.text
-    songs_list = driver.find_elements(By.CSS_SELECTOR, '#track-list div span')
     
     
-    related_songs_dict = dict()
-    for indx, song in enumerate(songs_list):
-        song_info= song.text.split(' - ')
-        related_songs_dict[str(indx)] = {'artist':song_info[0], 'track':song_info[1]}
-    
-    return related_songs_dict, origin_song
+    try :
+        upload_link = driver.find_element(By.XPATH, value='/html/body/main/div/div[2]/span')
+        upload_link.click()
+        driver.implicitly_wait(5)
+    except:
+
+        uri_field = driver.find_element(By.NAME, value='uri')
+        uri_field.clear()
+        uri_field.send_keys(yt_link, Keys.ENTER)
+        
+        driver.implicitly_wait(9)
+        source = driver.find_element(By.CSS_SELECTOR, value='main div section span')
+        origin_song = source.text
+        songs_list = driver.find_elements(By.CSS_SELECTOR, '#track-list div span')
+        
+        
+        related_songs_dict = dict()
+        for indx, song in enumerate(songs_list):
+            song_info= song.text.split(' - ')
+            related_songs_dict[str(indx)] = {'artist':song_info[0], 'track':song_info[1]}
+        
+        return related_songs_dict, origin_song
     
 def createPlaylist(access_token:str, related_songs_dict:dict, source_song:str):
     user = spotipy.Spotify(access_token)
